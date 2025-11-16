@@ -63,16 +63,24 @@ class UploadsController < ApplicationController # rubocop:disable Style/Document
     }
   end
 
-  def clear_email_logs_raw
+  def clear_email_logs_raw # rubocop:disable Metrics/MethodLength, Lint/RedundantCopDisableDirective, Metrics/AbcSize
     upload = Upload.find_by(id: params[:id])
-    return render json: { success: false, error: 'Upload not found' }, status: :not_found unless upload
+    return render json: { success: false, error: 'upload not found' }, status: :not_found unless upload
 
     begin
-      upload.email_logs.update_all(raw_data: nil, message: nil)
+      adapter = ActiveRecord::Base.connection.adapter_name.downcase
+      json_literal = if adapter.include?('postgres')
+                       "'{}'::jsonb"
+                     else
+                       "'{}'"
+                     end
 
-      render json: { success: true, cleared: upload.email_logs.count }
-    rescue StandardError => e
-      Rails.logger.error("[UploadsController#clear_email_logs_raw] upload=#{upload.id} error: #{e.class}: #{e.message}")
+      EmailLog.where(upload_id: upload.id)
+              .update_all("raw_data = NULL, message = NULL, parsed_json = #{json_literal}")
+
+      cleared = EmailLog.where(upload_id: upload.id).count
+      render json: { success: true, cleared: cleared }, status: :ok
+    rescue => e # rubocop:disable Style/RescueStandardError
       render json: { success: false, error: e.message }, status: :internal_server_error
     end
   end
