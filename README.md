@@ -13,7 +13,7 @@ Antes de começar, você precisa ter instalado:
 
 ### ▶️ Subindo o ambiente
 
-Com tudo instalado, execute:
+Depois de tudo instalado, execute:
 
 ``` 
 docker-compose up
