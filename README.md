@@ -174,7 +174,10 @@ O projeto deve ter uma interface web simples em Rails (HTML + Bootstrap), conten
 - **Arquitetura do código**  
 - **Facilidade de adicionar novos parsers**  
 - **UI e UX do aplicativo de exemplo**  
-  - Iremos executar o app localmente e verificar se ele funciona como deveria e se é intuitivo.  
+  - Iremos executar o app localmente e verificar se ele funciona como deveria e se é intuitivo.
+ 
+<img width="1818" height="917" alt="Captura de tela de 2025-11-16 11-24-57" src="https://github.com/user-attachments/assets/0f111b46-6b6b-45ef-9076-6076bfc00623" />
+
 
 ---
 
